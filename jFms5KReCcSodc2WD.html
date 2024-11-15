@@ -1,0 +1,66 @@
+<html><head><base href="https://example.com">
+    <title>one beer by mf doom</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: black;
+            color: white;
+            font-family: 'Comic Sans MS', cursive;
+            text-align: center;
+        }
+        #game-container {
+            background-color: black;
+            border-radius: 15px;
+            padding: 30px;
+            /* Removed box-shadow to eliminate the glow effect */
+        }
+        #jesus {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            cursor: pointer;
+            transition: transform 0.2s;
+            border-radius: 50%;
+        }
+        #jesus:hover {
+            transform: scale(1.1);
+        }
+        #status {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1>jesus clicker game but theres a 50 percent chance of him drinking evil beer, fucking dies, and takes you to a vsauce video</h1>
+        <img id="jesus" src="https://www.redemptionofhumanity.org/wp-content/uploads/Christ_The_Consolator-e1612607847923.jpg" alt="mf jesus christ" width="300" height="300">
+        <div id="status">clicks: 0</div>
+    </div>
+
+    <script>
+        let clicks = 0;
+        const jesus = document.getElementById('jesus');
+        const status = document.getElementById('status');
+
+        jesus.addEventListener('click', () => {
+            clicks++;
+            status.textContent = `clicks: ${clicks}`;
+
+            // 50% chance of death
+            if (Math.random() < 0.5) {
+                // Open specified video in new tab
+                window.open('https://youtu.be/L45Q1_psDqk?si=s-6eeFtjdRgjALTg', '_blank');
+                
+                // Automatically reset the game
+                clicks = 0;
+                status.textContent = `clicks: ${clicks}`;
+            }
+        });
+    </script>
+</body>
+</html>
