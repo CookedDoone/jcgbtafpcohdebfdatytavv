@@ -1,0 +1,224 @@
+<html><head><base href="https://example.com">
+    <title>one beer by mf doom</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: black;
+            color: white;
+            font-family: 'Comic Sans MS', cursive;
+            text-align: center;
+        }
+        #game-container {
+            background-color: black;
+            border-radius: 15px;
+            padding: 30px;
+        }
+        #jesus {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            cursor: pointer;
+            transition: transform 0.2s;
+            border-radius: 50%;
+        }
+        #jesus:hover {
+            transform: scale(1.1);
+        }
+        #status {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        #fun-settings {
+            margin-top: 20px;
+            background-color: white;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Comic Sans MS', cursive;
+            text-transform: lowercase;
+        }
+        #settings-menu {
+            display: none;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            font-family: 'Comic Sans MS', cursive;
+            text-transform: lowercase;
+        }
+        .settings-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .settings-option span {
+            text-transform: lowercase;
+        }
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        #brain-mode-video {
+            position: fixed;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 560px;
+            height: 315px;
+            display: none;
+            z-index: 1000;
+            border: 3px solid white;
+        }
+        .settings-option.brain-mode {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1>jesus clicker game but theres a 50 percent chance of him drinking evil beer, fucking dies, and takes you to a vsauce video</h1>
+        <img id="jesus" src="https://www.redemptionofhumanity.org/wp-content/uploads/Christ_The_Consolator-e1612607847923.jpg" alt="mf jesus" width="300" height="300">
+        <div id="status">clicks: 0 | points: 0</div>
+        <button id="fun-settings">fun settings</button>
+        <div id="settings-menu">
+            <div class="settings-option">
+                <span>disable death</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="disable-death-toggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="settings-option">
+                <span>owoify text</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="owoify-toggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="settings-option brain-mode">
+                <span>malnourished brain mode</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="brain-mode-toggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+        <iframe id="brain-mode-video" width="560" height="315" src="https://www.youtube.com/embed/eRXE8Aebp7s?si=1vaBvu96UhZ10M6I" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+
+    <script>
+        let clicks = 0;
+        let points = 0;
+        let deathEnabled = true;
+        let owoifyEnabled = false;
+
+        const jesus = document.getElementById('jesus');
+        const status = document.getElementById('status');
+        const funSettingsBtn = document.getElementById('fun-settings');
+        const settingsMenu = document.getElementById('settings-menu');
+        const disableDeathToggle = document.getElementById('disable-death-toggle');
+        const owoifyToggle = document.getElementById('owoify-toggle');
+        const brainModeToggle = document.getElementById('brain-mode-toggle');
+        const brainModeVideo = document.getElementById('brain-mode-video');
+
+        funSettingsBtn.addEventListener('click', () => {
+            settingsMenu.style.display = settingsMenu.style.display === 'none' ? 'block' : 'none';
+        });
+
+        disableDeathToggle.addEventListener('change', () => {
+            deathEnabled = !disableDeathToggle.checked;
+        });
+
+        owoifyToggle.addEventListener('change', () => {
+            owoifyEnabled = owoifyToggle.checked;
+            updateText();
+        });
+
+        brainModeToggle.addEventListener('change', () => {
+            brainModeVideo.style.display = brainModeToggle.checked ? 'block' : 'none';
+        });
+
+        function owoifyText(text) {
+            return text
+                .replace(/r/g, 'w')
+                .replace(/l/g, 'w')
+                .replace(/R/g, 'W')
+                .replace(/L/g, 'W')
+                + " uwu";
+        }
+
+        function updateText() {
+            const title = document.querySelector('h1');
+            const statusText = document.getElementById('status');
+
+            title.textContent = owoifyEnabled 
+                ? owoifyText('jesus clicker game but theres a 50 percent chance of him drinking evil beer, die, and takes you to a vsauce video')
+                : 'jesus clicker game but theres a 50 percent chance of him drinking evil beer, die, and takes you to a vsauce video';
+
+            statusText.textContent = owoifyEnabled
+                ? owoifyText(`clicks: ${clicks} | points: ${points}`)
+                : `clicks: ${clicks} | points: ${points}`;
+        }
+
+        jesus.addEventListener('click', () => {
+            clicks++;
+            
+            // 50% chance of death (if death is enabled)
+            if (deathEnabled && Math.random() < 0.5) {
+                // Open specified video in new tab
+                window.open('https://youtu.be/L45Q1_psDqk?si=s-6eeFtjdRgjALTg', '_blank');
+                
+                // Automatically reset the click count but keep points
+                clicks = 0;
+                updateText();
+            } else {
+                // Only add points if the click doesn't trigger death
+                points += 100;
+                updateText();
+            }
+        });
+    </script>
+</body>
+</html>
